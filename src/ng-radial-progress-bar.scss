@@ -1,0 +1,107 @@
+@import '../bower_components/bourbon/dist/bourbon';
+
+.radial-progress-bar {
+  $radial-progress-circle-size: 70px;
+  $radial-progress-circle-background: #333;
+  $radial-progress-circle-color: #fefefe;
+  $radial-progress-inset-size: $radial-progress-circle-size * 0.9;
+  $radial-progress-inset-color: #222;
+  $radial-progress-transition-length: 0.2s;
+  $radial-progress-percentage-color: #eee;
+  $radial-progress-percentage-font-size: $radial-progress-circle-size * 0.2;
+  $radial-progress-percentage-text-width: 57px;
+  width: $radial-progress-circle-size;
+  height: $radial-progress-circle-size;
+
+  background-color: $radial-progress-circle-background;
+
+  border-radius: 50%;
+  .circle {
+
+    .mask, .fill, .shadow {
+      width: $radial-progress-circle-size;
+      height: $radial-progress-circle-size;
+      position: absolute;
+      border-radius: 50%;
+    }
+    .shadow {
+      border: 1px solid $radial-progress-inset-color;
+      @include transition(background ease 0.2s);
+    }
+    .mask, .fill {
+      -webkit-backface-visibility: hidden;
+      transition: -webkit-transform $radial-progress-transition-length;
+      transition: -ms-transform $radial-progress-transition-length;
+      transition: transform $radial-progress-transition-length;
+      border-radius: 50%;
+    }
+    .mask {
+      clip: rect(0px, $radial-progress-circle-size, $radial-progress-circle-size, $radial-progress-circle-size/2);
+      .fill {
+        clip: rect(0px, $radial-progress-circle-size/2, $radial-progress-circle-size, 0px);
+        background-color: $radial-progress-circle-color;
+      }
+    }
+  }
+  .inset {
+    width: $radial-progress-inset-size;
+    height: $radial-progress-inset-size;
+    position: absolute;
+    margin-left: ($radial-progress-circle-size - $radial-progress-inset-size)/2;
+    margin-top: ($radial-progress-circle-size - $radial-progress-inset-size)/2;
+
+    background-color: $radial-progress-inset-color;
+    border-radius: 50%;
+    .percentage {
+      height: $radial-progress-percentage-font-size;
+      width: $radial-progress-percentage-text-width;
+      overflow: hidden;
+      position: absolute;
+      top: ($radial-progress-inset-size - $radial-progress-percentage-font-size) / 2;
+      left: ($radial-progress-inset-size - $radial-progress-percentage-text-width) / 2;
+
+      line-height: 1;
+      .numbers {
+        margin-top: - $radial-progress-percentage-font-size;
+        transition: width $radial-progress-transition-length;
+        opacity: 0.8;
+
+        span {
+          width: $radial-progress-percentage-text-width;
+          display: inline-block;
+          vertical-align: top;
+          text-align: center;
+          font-weight: lighter;
+          font-size: $radial-progress-percentage-font-size;
+          color: $radial-progress-percentage-color;
+        }
+      }
+    }
+  }
+
+  $i: 0;
+  $increment: 180deg / 100;
+
+  &[data-progress="100"] {
+    .shadow {
+      background: $radial-progress-circle-color;
+    }
+  }
+
+  @for $i from 0 through 100 {
+    &[data-progress="#{$i}"] {
+      .circle {
+        .mask.full, .fill {
+          @include transform(rotate(increment *$i));
+        }
+        .fill.fix {
+          @include transform(rotate($increment *$i *2));
+        }
+      }
+      .inset .percentage .numbers {
+        width: ($i * $radial-progress-percentage-text-width) + $radial-progress-percentage-text-width;
+      }
+    }
+
+  }
+}
