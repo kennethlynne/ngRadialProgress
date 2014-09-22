@@ -82,14 +82,14 @@
   $i: 0;
   $increment: 180deg / 100;
 
-  &[data-progress="100"] {
+  &[progress="100"] {
     .shadow {
       background: $radial-progress-circle-color;
     }
   }
 
   @for $i from 0 through 100 {
-    &[data-progress="#{$i}"] {
+    &[progress="#{$i}"] {
       .circle {
         .mask.full, .fill {
           @include transform(rotate($increment *$i));
@@ -104,8 +104,4 @@
     }
 
   }
-}
-
-.radial-progress-bar {
-  @include radial-progress-bar();
 }
