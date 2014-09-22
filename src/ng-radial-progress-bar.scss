@@ -1,7 +1,7 @@
 @import '../bower_components/bourbon/dist/bourbon';
 
-.radial-progress-bar {
-  $radial-progress-circle-size: 70px;
+@mixin radial-progress-bar($radius: 70px) {
+  $radial-progress-circle-size: $radius;
   $radial-progress-circle-background: #333;
   $radial-progress-circle-color: #fefefe;
   $radial-progress-inset-size: $radial-progress-circle-size * 0.9;
@@ -9,7 +9,7 @@
   $radial-progress-transition-length: 0.2s;
   $radial-progress-percentage-color: #eee;
   $radial-progress-percentage-font-size: $radial-progress-circle-size * 0.2;
-  $radial-progress-percentage-text-width: 57px;
+  $radial-progress-percentage-text-width: $radius*(5/7);
   width: $radial-progress-circle-size;
   height: $radial-progress-circle-size;
 
@@ -92,7 +92,7 @@
     &[data-progress="#{$i}"] {
       .circle {
         .mask.full, .fill {
-          @include transform(rotate(increment *$i));
+          @include transform(rotate($increment *$i));
         }
         .fill.fix {
           @include transform(rotate($increment *$i *2));
@@ -104,4 +104,8 @@
     }
 
   }
+}
+
+.radial-progress-bar {
+  @include radial-progress-bar();
 }
