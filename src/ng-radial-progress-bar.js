@@ -1,6 +1,7 @@
 (function (angular) {
   angular.module('ngRadialProgressBar', []).directive('radialProgress', function () {
     return {
+      restrict: 'E',
       terminal: true,
       priority: 1000,
       link: function (scope) {
